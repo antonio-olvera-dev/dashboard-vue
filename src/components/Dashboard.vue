@@ -4,9 +4,9 @@
 
 <!-- ---Header--- -->
 <div class="dashboard__header full-w" @click="activDash('dashboard__header', 0)" @mouseover="overElement('iddd', 0) " @mouseleave="leaveElement('iddd', 0)" >
-<i class="dashboard__icon bi-alarm iddd" ></i>
+<i class="dashboard__icon bi bi-person iddd" ></i>
 <div class="dashboard__header__text full-w">
-<span>Item 1</span>
+<span>User</span>
 <i class="bi bi-chevron-right iddd0"></i> <!-- ---Change iddd0--- -->
 </div>
 </div>
@@ -16,13 +16,33 @@
 <div class="dashboard__body full-w" v-if="bodyBool">
 <ul class="full-w">
     <!-- ---id-dashboard-action  se utiliza como id--- -->
-    <li class="full-w id-dashboard-action" v-for="(item,i) in [1,2,3,4,5,6]" v-bind:key="item" @mouseover="overElement('idd', i) " @mouseleave="leaveElement('idd', i)"
+    <li class="full-w id-dashboard-action" v-for="(item,i) in ['List','View','Edit','...']" v-bind:key="item" @mouseover="overElement('idd', i) " @mouseleave="leaveElement('idd', i)"
      @click="actionDash">
         <i class="bi bi-record2 dashboard__icon idd" ></i>
-        {{i}}
+        {{item}}
     </li>
 </ul>
 </div>
+
+<!-- ---Alone--- -->
+<!-- ---id-dashboard-action  se utiliza como id--- -->
+<div class="dashboard__header full-w id-dashboard-action" @click="actionDash" @mouseover="overElement('iddd', 1) " @mouseleave="leaveElement('iddd', 1)" >
+<i class="dashboard__icon bi bi-envelope iddd" ></i>
+<div class="dashboard__header__text full-w">
+<span>Email</span>
+</div>
+</div>
+<!-- ---Alone--- -->
+
+<!-- ---Alone 2--- -->
+<!-- ---id-dashboard-action  se utiliza como id--- -->
+<div class="dashboard__header full-w id-dashboard-action" @click="actionDash" @mouseover="overElement('iddd', 2) " @mouseleave="leaveElement('iddd', 2)" >
+<i class="dashboard__icon bi bi-calendar iddd" ></i>
+<div class="dashboard__header__text full-w">
+<span>Calendar</span>
+</div>
+</div>
+<!-- ---Alone--- -->
 
 <!-- ---------------------- -->
   </div>
@@ -48,7 +68,7 @@ methods:{
             return true;
         }
         target.classList.remove('dashboard__header-active');
-       target.classList.add('dashboard__header-active');
+       targetRow.classList.remove('dashboard__header-activeRow');
     },
     //TODO add action
     actionDash(event){
@@ -62,6 +82,7 @@ methods:{
                 item.classList.remove('dashboard__action');
             }
         }
+        console.log(target.innerText);
     },
     overElement(clas, position){
         const target = document.getElementsByClassName(clas)[position];
@@ -84,7 +105,11 @@ methods:{
   margin: 0%;
   padding: 0%;
 }
-
+i{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .full{
     width: 100%;
     height: 100%;
@@ -122,7 +147,7 @@ methods:{
 
     &__action{
         background-color: $c__primary;
-        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.9);
+        box-shadow: inset 0px 0px 5px 0px rgba(255, 255, 255, 0.5);
         color: white;
     }
 
@@ -176,7 +201,6 @@ methods:{
         height: fit-content;
         animation-name: anim-body;
         animation-duration: $transition-duration;
-        animation-timing-function: linear;
         overflow: hidden;
 
         & > ul{
@@ -188,6 +212,7 @@ methods:{
         & > ul > li{
             @extend .dashboard__main;
             padding:  0.3em;
+            margin-top: 0.1em;
              & > i{
                  padding-left: 0.2em;
              }
@@ -200,7 +225,7 @@ methods:{
             height: 0em;
         }
         100%{
-            height: 5em;
+            height: 198px;  //TODO Modificar segun el valor real
         }
     }
 }

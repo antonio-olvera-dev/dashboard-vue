@@ -7,7 +7,7 @@
 <i class="dashboard__icon bi-alarm iddd" ></i>
 <div class="dashboard__header__text full-w">
 <span>Item 1</span>
-<i class="bi bi-chevron-right"></i>
+<i class="bi bi-chevron-right iddd0"></i> <!-- ---Change iddd0--- -->
 </div>
 </div>
 
@@ -15,8 +15,10 @@
 
 <div class="dashboard__body full-w" v-if="bodyBool">
 <ul class="full-w">
-    <li class="full-w" v-for="(item,i) in [1,2,3,4,5,6]" v-bind:key="item" @mouseover="overElement('idd', i) " @mouseleave="leaveElement('idd', i)" >
-        <i class="dashboard__icon bi-alarm idd" ></i>
+    <!-- ---id-dashboard-action  se utiliza como id--- -->
+    <li class="full-w id-dashboard-action" v-for="(item,i) in [1,2,3,4,5,6]" v-bind:key="item" @mouseover="overElement('idd', i) " @mouseleave="leaveElement('idd', i)"
+     @click="actionDash">
+        <i class="bi bi-record2 dashboard__icon idd" ></i>
         {{i}}
     </li>
 </ul>
@@ -32,20 +34,34 @@
 export default {
 data() {
     return {
-        bodyBool: false,
-        overHeaderBool: false,
-        overBodyBool: false,
+        bodyBool: false
     }
 },
 methods:{
     activDash(clas, position){
         this.bodyBool = !this.bodyBool;
         const target = document.getElementsByClassName(clas)[position];
+        const targetRow = document.getElementsByClassName(`iddd${position}`)[position];
         if(this.bodyBool){
             target.classList.add('dashboard__header-active');
+            targetRow.classList.add('dashboard__header-activeRow');
             return true;
         }
         target.classList.remove('dashboard__header-active');
+       target.classList.add('dashboard__header-active');
+    },
+    //TODO add action
+    actionDash(event){
+        const target = event.target;
+        const targets = document.getElementsByClassName('id-dashboard-action');
+        for (let i = 0; i < targets.length; i++) {
+            const item = targets[i];
+            if (item.innerText === target.innerText) {
+                item.classList.add('dashboard__action');
+            }else{
+                item.classList.remove('dashboard__action');
+            }
+        }
     },
     overElement(clas, position){
         const target = document.getElementsByClassName(clas)[position];
@@ -80,23 +96,40 @@ methods:{
     height: 100%;
 }
 .dashboard{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh; //---Change 100% if required---
+    width: 18em;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5);
+    padding: 1em;
+    user-select: none;
 
-    .overElement{
-        margin-left: 0.3em;
-        transition-duration: 100ms;
-    }
 
     // ---Setting---
     $dashboard__padding: 1em;
     $dashboard__border: 0.3em;
-    $dashboard__color-active: rgb(224, 224, 224);
+    $c__dashboard__active: rgb(243, 243, 243);
+    $c__primary: #0da692;
+    $c__primary-light: #13ddc2;
+    $c__primary-dark: #0b7769;
+    $c__primary-dark-shadow: #0b7769;
+    $transition-duration: 300ms;
 
 
-    height: 100vh; //---Change 100% if required---
-    width: 15em;
-    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5);
-    padding: 1em;
-    user-select: none;
+
+
+    &__action{
+        background-color: $c__primary;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.9);
+        color: white;
+    }
+
+    .overElement{
+        margin-left: 0.3em;
+        transition-duration: $transition-duration;
+    }
 
     &__icon{
         font-size: 1.3em;
@@ -111,6 +144,7 @@ methods:{
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        
     }
 
     &__header{
@@ -128,7 +162,12 @@ methods:{
     }
 
     &__header-active{
-      background-color: $dashboard__color-active;
+      background-color: $c__dashboard__active;
+      transition-duration: $transition-duration;
+    }
+    &__header-activeRow{
+        transform: rotate(90deg);
+        transition-duration: $transition-duration;
     }
 
     &__body{
@@ -136,17 +175,21 @@ methods:{
         padding: 0%;
         height: fit-content;
         animation-name: anim-body;
-        animation-duration: 100ms;
+        animation-duration: $transition-duration;
+        animation-timing-function: linear;
+        overflow: hidden;
 
         & > ul{
+           
             list-style: none;
             padding: 0%;
             margin: 0%;
         }
         & > ul > li{
             @extend .dashboard__main;
+            padding:  0.3em;
              & > i{
-                 margin-left: 0.2em;
+                 padding-left: 0.2em;
              }
             height: 3em;
         }
@@ -154,10 +197,10 @@ methods:{
     }
     @keyframes anim-body {
         0%{
-            height: 0%;
+            height: 0em;
         }
         100%{
-            height: fit-content;
+            height: 5em;
         }
     }
 }

@@ -1,10 +1,10 @@
 <template>
   <div class="dashboard">
 <!-- ---------------------- -->
-
+<!-- //TODO Add for() -->
 <!-- ---Header--- -->
-<div class="dashboard__header full-w" @click="activDash">
-<i class="dashboard__icon bi-alarm"></i>
+<div class="dashboard__header full-w iddd" @click="activDash" @mouseover="overElement('iddd', 0) " @mouseleave="leaveElement('iddd', 0)" >
+<i class="dashboard__icon bi-alarm" v-bind:class="{'overElement':overHeaderBool}"></i>
 <div class="dashboard__header__text">
 <span>Item 1</span>
 </div>
@@ -14,8 +14,8 @@
 
 <div class="dashboard__body full-w" v-if="bodyBool">
 <ul class="full-w">
-    <li class="full-w" v-for="(item,i) in [1,2,3,4,5,6]" v-bind:key="item">
-        <i class="dashboard__icon bi-alarm"></i>
+    <li class="full-w" v-for="(item,i) in [1,2,3,4,5,6]" v-bind:key="item" @mouseover="overElement('idd', i) " @mouseleave="leaveElement('idd', i)" >
+        <i class="dashboard__icon bi-alarm idd" v-bind:class="{'overElement':overHeaderBool}"></i>
         {{i}}
     </li>
 </ul>
@@ -31,12 +31,22 @@
 export default {
 data() {
     return {
-        bodyBool: false
+        bodyBool: false,
+        overHeaderBool: false,
+        overBodyBool: false,
     }
 },
 methods:{
     activDash(){
         this.bodyBool = !this.bodyBool;
+    },
+    overElement(clas, position){
+        const target = document.getElementsByClassName(clas)[position];
+        target.classList.add('overElement');
+    },
+    leaveElement(clas, position){
+        const target = document.getElementsByClassName(clas)[position];
+        target.classList.remove('overElement');
     }
 }
 
@@ -63,6 +73,11 @@ methods:{
     height: 100%;
 }
 .dashboard{
+
+    .overElement{
+        margin-left: 0.3em;
+        transition-duration: 100ms;
+    }
 
     // ---Setting---
     $dashboard__padding: 1em;
@@ -94,11 +109,6 @@ methods:{
     &__header{
         @extend .dashboard__main;
         height: 3em;
-         &:active{
-            background-color: $dashboard__color-hover;
-         }
-        
-
         &__text{
            
            
@@ -119,9 +129,6 @@ methods:{
         }
         & > ul > li{
             @extend .dashboard__main;
-             &:active{
-              background-color: $dashboard__color-hover;
-             }
              & > i{
                  margin-left: 0.2em;
              }

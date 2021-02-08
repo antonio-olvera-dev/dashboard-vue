@@ -4,9 +4,10 @@
 
 <!-- ---Header--- -->
 <div class="dashboard__header full-w" @click="activDash('dashboard__header', 0)" @mouseover="overElement('iddd', 0) " @mouseleave="leaveElement('iddd', 0)" >
-<i class="dashboard__icon bi-alarm iddd" v-bind:class="{'overElement':overHeaderBool}"></i>
-<div class="dashboard__header__text">
+<i class="dashboard__icon bi-alarm iddd" ></i>
+<div class="dashboard__header__text full-w">
 <span>Item 1</span>
+<i class="bi bi-chevron-right"></i>
 </div>
 </div>
 
@@ -15,7 +16,7 @@
 <div class="dashboard__body full-w" v-if="bodyBool">
 <ul class="full-w">
     <li class="full-w" v-for="(item,i) in [1,2,3,4,5,6]" v-bind:key="item" @mouseover="overElement('idd', i) " @mouseleave="leaveElement('idd', i)" >
-        <i class="dashboard__icon bi-alarm idd" v-bind:class="{'overElement':overHeaderBool}"></i>
+        <i class="dashboard__icon bi-alarm idd" ></i>
         {{i}}
     </li>
 </ul>
@@ -116,7 +117,11 @@ methods:{
         @extend .dashboard__main;
         height: 3em;
         &__text{
-           
+           display: flex;
+           justify-content: flex-start;
+           & > i {
+               margin-left: auto;
+           }
            
         }
 

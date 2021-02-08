@@ -1,10 +1,10 @@
 <template>
   <div class="dashboard">
 <!-- ---------------------- -->
-<!-- //TODO Add for() -->
+
 <!-- ---Header--- -->
-<div class="dashboard__header full-w iddd" @click="activDash" @mouseover="overElement('iddd', 0) " @mouseleave="leaveElement('iddd', 0)" >
-<i class="dashboard__icon bi-alarm" v-bind:class="{'overElement':overHeaderBool}"></i>
+<div class="dashboard__header full-w" @click="activDash('dashboard__header', 0)" @mouseover="overElement('iddd', 0) " @mouseleave="leaveElement('iddd', 0)" >
+<i class="dashboard__icon bi-alarm iddd" v-bind:class="{'overElement':overHeaderBool}"></i>
 <div class="dashboard__header__text">
 <span>Item 1</span>
 </div>
@@ -37,8 +37,14 @@ data() {
     }
 },
 methods:{
-    activDash(){
+    activDash(clas, position){
         this.bodyBool = !this.bodyBool;
+        const target = document.getElementsByClassName(clas)[position];
+        if(this.bodyBool){
+            target.classList.add('dashboard__header-active');
+            return true;
+        }
+        target.classList.remove('dashboard__header-active');
     },
     overElement(clas, position){
         const target = document.getElementsByClassName(clas)[position];
@@ -82,7 +88,7 @@ methods:{
     // ---Setting---
     $dashboard__padding: 1em;
     $dashboard__border: 0.3em;
-    $dashboard__color-hover: rgb(224, 224, 224);
+    $dashboard__color-active: rgb(224, 224, 224);
 
 
     height: 100vh; //---Change 100% if required---
@@ -113,6 +119,11 @@ methods:{
            
            
         }
+
+    }
+
+    &__header-active{
+      background-color: $dashboard__color-active;
     }
 
     &__body{

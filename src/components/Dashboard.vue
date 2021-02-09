@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard" @mouseleave="actionDashDesactive">
 <!-- ---------------------- -->
 <!-- ---Collapse--- -->
 <div class="full-w dashboard__collapse">
@@ -94,6 +94,30 @@ methods:{
             }
         }
         console.log(target.innerText);
+    },
+        actionDashDesactive(){
+        
+        if (this.collapseBool) {
+            const targets = document.getElementsByClassName('id-dashboard-action');
+            for (let i = 0; i < targets.length; i++) {
+            const item = targets[i];
+            item.classList.remove('dashboard__action');
+            }
+            const target2 = document.getElementsByClassName('dashboard__header');
+            for (let i = 0; i < target2.length; i++) {
+                const item = target2[i];
+                item.classList.remove('dashboard__header-active')
+            }
+            this.bodyBool = false;
+
+            //TODO dashboard__header-activeRow probar
+            const targetRow = document.getElementsByClassName('dashboard__header-activeRow');
+            for (let i = 0; i < targetRow.length; i++) {
+                const item = targetRow[i];
+                item.classList.remove('dashboard__header-activeRow');
+            }
+            
+        }
     },
     overElement(clas, position){
         const target = document.getElementsByClassName(clas)[position];
